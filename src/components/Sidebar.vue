@@ -1,0 +1,247 @@
+<template>
+  <div class="sidebar-root">
+    <div class="sidebar-logo"><span class="icon-logo"><IconCash /></span>AturKuy</div>
+    <div class="sidebar-search">
+      <input type="text" placeholder="Search" v-model="search" />
+    </div>
+    <nav class="sidebar-menu">
+      <ul>
+        <li v-for="item in filteredMenu" :key="item.to">
+          <router-link :to="item.to" class="sidebar-link" :class="{ active: route.path === item.to }">
+            <span class="icon"><component :is="item.icon" /></span>{{ item.label }}
+          </router-link>
+        </li>
+        <li v-if="filteredMenu.length === 0" class="sidebar-menu-empty">Menu tidak tersedia</li>
+      </ul>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-bottom-separator"></div>
+      <router-link to="/login" class="logout-btn">
+        <span class="icon"><IconLogout /></span>Logout
+      </router-link>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import IconHome from '~icons/mdi/home';
+import IconPlus from '~icons/mdi/plus';
+import IconMinus from '~icons/mdi/minus';
+import IconChartLine from '~icons/mdi/chart-line';
+import IconCash from '~icons/mdi/cash';
+import IconLogout from '~icons/mdi/logout';
+
+const route = useRoute();
+const search = ref('');
+const menuItems = [
+  { label: 'Dashboard', icon: IconHome, to: '/' },
+  { label: 'Tambah Pemasukan', icon: IconPlus, to: '/tambah-pemasukan' },
+  { label: 'Tambah Pengeluaran', icon: IconMinus, to: '/tambah-pengeluaran' },
+  { label: 'Grafik Keuangan', icon: IconChartLine, to: '/grafik' },
+];
+const filteredMenu = computed(() => {
+  if (!search.value) return menuItems;
+  return menuItems.filter(item => item.label.toLowerCase().includes(search.value.toLowerCase()));
+});
+</script>
+
+<style scoped>
+.sidebar-root {
+  width: 280px;
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid #d2d2d2;
+  padding: 2rem 1.2rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: calc(100vh - 5rem);
+  margin: 2.5rem 0 2.5rem 2.5rem;
+  box-sizing: border-box;
+}
+.sidebar-logo {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  letter-spacing: 0;
+  text-align: left;
+  font-family: inherit;
+}
+.sidebar-user-card {
+  display: flex;
+  align-items: center;
+  background: #f6f6f6;
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #e9ecef;
+}
+.sidebar-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.sidebar-user-dropdown {
+  font-size: 1rem;
+}
+.sidebar-search {
+  margin-bottom: 0.5rem;
+}
+.sidebar-search input {
+  width: 100%;
+  max-width: 210px;
+  margin: 0 auto;
+  display: block;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  background: #f6f6f6;
+  font-size: 1rem;
+  outline: none;
+}
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.sidebar-menu li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.08rem;
+  font-weight: 500;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sidebar-menu li:hover {
+  background: #f6f6f6;
+}
+.sidebar-section {
+  margin-top: 1.2rem;
+}
+.sidebar-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.sidebar-materials {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.sidebar-materials li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sidebar-materials li:hover {
+  background: #f6f6f6;
+}
+.sidebar-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.sidebar-help, .sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1.05rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sidebar-help:hover, .sidebar-logout:hover {
+  background: #f6f6f6;
+}
+.icon {
+  font-size: 1.2em;
+  margin: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.2rem;
+}
+.icon-logo {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.5rem;
+  height: 1em;
+  font-size: 1em;
+  vertical-align: middle;
+}
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: inherit;
+  text-decoration: none;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1.08rem;
+  transition: background 0.15s, color 0.15s;
+}
+.sidebar-link.active {
+  background: transparent;
+  outline: 2px solid #f6f6f6;
+}
+.sidebar-menu li {
+  padding: 0;
+}
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.08rem;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  transition: background 0.15s;
+  text-decoration: none;
+}
+.logout-btn:hover {
+  background: #f6f6f6;
+}
+.sidebar-bottom-separator {
+  border-top: 1px solid #e9ecef;
+  margin: 0;
+}
+.sidebar-menu-empty {
+  text-align: center;
+  color: #bbb;
+  font-size: 1rem;
+  padding: 1.2rem 0;
+  user-select: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style> 
