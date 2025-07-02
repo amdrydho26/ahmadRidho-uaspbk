@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar-root">
-    <div class="sidebar-logo"><span class="icon-logo"><IconCash /></span>AturKuy</div>
+    <div class="sidebar-logo"><span class="icon-logo"><img :src="logo" alt="Logo" class="sidebar-logo-img" /></span>AturKuy</div>
     <div class="sidebar-search">
       <input type="text" placeholder="Search" v-model="search" />
     </div>
@@ -8,7 +8,12 @@
       <ul>
         <li v-for="item in filteredMenu" :key="item.to">
           <router-link :to="item.to" class="sidebar-link" :class="{ active: route.path === item.to }">
-            <span class="icon"><component :is="item.icon" /></span>{{ item.label }}
+            <span class="icon" :class="{
+              'icon-dashboard': item.to === '/',
+              'icon-tambah-pemasukan': item.to === '/tambah-pemasukan',
+              'icon-tambah-pengeluaran': item.to === '/tambah-pengeluaran',
+              'icon-grafik': item.to === '/grafik'
+            }"><component :is="item.icon" /></span>{{ item.label }}
           </router-link>
         </li>
         <li v-if="filteredMenu.length === 0" class="sidebar-menu-empty">Menu tidak tersedia</li>
@@ -16,9 +21,9 @@
     </nav>
     <div class="sidebar-bottom">
       <div class="sidebar-bottom-separator"></div>
-      <router-link to="/login" class="logout-btn">
-        <span class="icon"><IconLogout /></span>Logout
-      </router-link>
+      <button class="logout-btn" @click="handleLogout">
+        <span class="icon icon-logout"><IconLogout /></span>Logout
+      </button>
     </div>
   </div>
 </template>
@@ -32,6 +37,7 @@ import IconMinus from '~icons/mdi/minus';
 import IconChartLine from '~icons/mdi/chart-line';
 import IconCash from '~icons/mdi/cash';
 import IconLogout from '~icons/mdi/logout';
+import logo from '../assets/logo.png';
 
 const route = useRoute();
 const search = ref('');
@@ -45,6 +51,12 @@ const filteredMenu = computed(() => {
   if (!search.value) return menuItems;
   return menuItems.filter(item => item.label.toLowerCase().includes(search.value.toLowerCase()));
 });
+const router = useRouter();
+
+function handleLogout() {
+  localStorage.removeItem('isLoggedIn');
+  router.push('/login');
+}
 </script>
 
 <style scoped>
@@ -68,6 +80,8 @@ const filteredMenu = computed(() => {
   letter-spacing: 0;
   text-align: left;
   font-family: inherit;
+  display: flex;
+  align-items: center;
 }
 .sidebar-user-card {
   display: flex;
@@ -175,6 +189,9 @@ const filteredMenu = computed(() => {
 .sidebar-help:hover, .sidebar-logout:hover {
   background: #f6f6f6;
 }
+.icon, .icon-logo {
+  color: #007AFF !important;
+}
 .icon {
   font-size: 1.2em;
   margin: 0 0.5rem;
@@ -190,6 +207,18 @@ const filteredMenu = computed(() => {
   height: 1em;
   font-size: 1em;
   vertical-align: middle;
+}
+.icon-dashboard {
+  color: #007AFF !important;
+}
+.icon-tambah-pemasukan {
+  color: #34C759 !important;
+}
+.icon-tambah-pengeluaran {
+  color: #FF3B30 !important;
+}
+.icon-grafik {
+  color: #FF9500 !important;
 }
 .sidebar-link {
   display: flex;
@@ -212,19 +241,19 @@ const filteredMenu = computed(() => {
   padding: 0;
 }
 .logout-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
   background: none;
   border: none;
   color: inherit;
-  font-size: 1.08rem;
-  font-family: inherit;
+  font: inherit;
   cursor: pointer;
-  padding: 0.7rem 1rem;
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 6px;
   transition: background 0.15s;
-  text-decoration: none;
+  width: 100%;
+  text-align: left;
 }
 .logout-btn:hover {
   background: #f6f6f6;
@@ -243,5 +272,20 @@ const filteredMenu = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.icon-logo-black {
+  color: #080808 !important;
+}
+.icon-logout {
+  color: #5856D6 !important;
+}
+.sidebar-logo-img {
+  height: 3.5rem;
+  width: auto;
+  display: inline-block;
+  vertical-align: bottom;
+  margin-right: 0.3rem;
+  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 </style> 

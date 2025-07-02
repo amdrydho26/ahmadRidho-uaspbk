@@ -22,11 +22,47 @@
     </div>
     <button type="submit" class="btn-submit">Tambah Pengeluaran</button>
   </form>
+  <div v-if="showWarning" class="modal-overlay">
+    <div class="modal-content warning-modal" style="max-width:340px;min-width:260px;text-align:center;">
+      <div class="warning-header">
+        <IconAlert class="icon-alert" />
+        <span class="warning-title">Peringatan</span>
+      </div>
+      <p style="margin-bottom:1rem;">{{ warningMessage }}</p>
+      <div class="saldo-card">
+        <IconCash class="saldo-icon" />
+        <span class="saldo-label">Saldo Anda</span>
+        <span class="saldo-value">Rp{{ saldo.toLocaleString('id-ID') }}</span>
+      </div>
+      <button @click="showWarning=false" class="btn-save success-btn-bottom">OK</button>
+    </div>
+  </div>
+  <div v-if="showSuccess" class="modal-overlay">
+    <div class="modal-content warning-modal" style="max-width:340px;min-width:260px;text-align:center;">
+      <div class="warning-header">
+        <IconCheckCircle class="icon-alert" style="color:#34C759;" />
+        <span class="warning-title">Sukses</span>
+      </div>
+      <p style="margin-bottom:1rem;">{{ successMessage }}</p>
+      <div class="saldo-card">
+        <IconCash class="saldo-icon" />
+        <span class="saldo-label">Saldo Anda</span>
+        <span class="saldo-value">Rp{{ saldo.toLocaleString('id-ID') }}</span>
+      </div>
+      <button @click="showSuccess=false" class="btn-save success-btn-bottom">OK</button>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import IconMinus from '~icons/mdi/minus';
-import { ref } from 'vue';
+import IconAlert from '~icons/mdi/alert-circle-outline';
+import IconCheckCircle from '~icons/mdi/check-circle-outline';
+import IconCash from '~icons/mdi/cash';
+import { ref, computed } from 'vue';
+import { useTransaksiStore } from '../store';
+
+const store = useTransaksiStore();
 
 const form = ref({
   nama: '',
@@ -36,8 +72,28 @@ const form = ref({
   jumlah: ''
 });
 
+const saldo = computed(() => store.saldo);
+const showWarning = ref(false);
+const warningMessage = ref('');
+const showSuccess = ref(false);
+const successMessage = ref('');
+
 function submitForm() {
-  alert('Data berhasil disubmit!\n' + JSON.stringify(form.value, null, 2));
+  if (Number(form.value.jumlah) > saldo.value) {
+    warningMessage.value = 'Jumlah pengeluaran tidak boleh melebihi saldo!';
+    showWarning.value = true;
+    return;
+  }
+  store.tambahTransaksi({
+    nama: form.value.nama,
+    deskripsi: form.value.deskripsi,
+    jenis: 'Pengeluaran',
+    tanggal: form.value.tanggal,
+    jumlah: Number(form.value.jumlah)
+  });
+  form.value = { nama: '', deskripsi: '', jenis: 'Pengeluaran', tanggal: '', jumlah: '' };
+  successMessage.value = 'Pengeluaran berhasil ditambahkan!';
+  showSuccess.value = true;
 }
 </script>
 
@@ -108,7 +164,7 @@ function submitForm() {
   padding: 0.7rem 1.2rem;
   border: none;
   border-radius: 8px;
-  background: #e80000;
+  background: #FF3B30;
   color: #fff;
   font-size: 1.1rem;
   font-weight: 600;
@@ -116,12 +172,101 @@ function submitForm() {
   transition: background 0.2s;
 }
 .btn-submit:hover {
-  background: #b80000;
+  background: #b2271c;
 }
 /* Hilangkan spinner pada input type number */
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.warning-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-left: 0;
+}
+.warning-header .icon-alert {
+  color: #FF9500;
+  font-size: 2rem;
+}
+.warning-header .warning-title {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+.modal-content.warning-modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  min-width: 420px;
+  max-width: 600px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  position: relative;
+  min-height: 180px;
+}
+.btn-save {
+  background: #007AFF;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-save:hover {
+  background: #0051a8;
+}
+.btn-save:disabled {
+  background: #bcd6fa;
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 1;
+}
+.saldo-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: #eafaf1;
+  border-radius: 10px;
+  padding: 0.7rem 1.2rem;
+  margin: 0.3rem auto 2rem auto;
+  width: fit-content;
+  font-size: 1.08rem;
+  font-weight: 500;
+}
+.saldo-icon {
+  color: #34C759;
+  font-size: 1.3rem;
+}
+.saldo-label {
+  color: #34C759;
+  font-weight: 600;
+}
+.saldo-value {
+  color: #34C759;
+  font-weight: 700;
+  margin-left: 0.3rem;
+}
+.success-btn-bottom {
+  margin-top: auto;
+  width: 100%;
 }
 </style> 

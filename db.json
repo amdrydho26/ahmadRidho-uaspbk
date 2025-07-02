@@ -1,0 +1,116 @@
+{
+  "transaksi": [
+    {
+      "id": "1",
+      "nama": "Gaji Bulanan",
+      "deskripsi": "Gaji dari kantor",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-07-01",
+      "jumlah": 2000000
+    },
+    {
+      "id": "2",
+      "nama": "Makan Siang",
+      "deskripsi": "Makan di luar",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-07-02",
+      "jumlah": 50000
+    },
+    {
+      "id": "3",
+      "nama": "Beras",
+      "deskripsi": "Bulog",
+      "jenis": "Pengeluaran",
+      "tanggal": "2025-07-02",
+      "jumlah": 80000
+    },
+    {
+      "id": "4",
+      "nama": "Upah Ngoding",
+      "deskripsi": "PBK",
+      "tanggal": "2025-07-03",
+      "jumlah": 45000,
+      "jenis": "Pemasukan"
+    },
+    {
+      "id": "5",
+      "nama": "Freelance",
+      "deskripsi": "Proyek desain",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-07-03",
+      "jumlah": 1200000
+    },
+    {
+      "id": "6",
+      "nama": "Beli Buku",
+      "deskripsi": "Buku kuliah",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-07-04",
+      "jumlah": 150000
+    },
+    {
+      "id": "7",
+      "nama": "Bonus",
+      "deskripsi": "Bonus tahunan",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-07-05",
+      "jumlah": 2000000
+    },
+    {
+      "id": "8",
+      "nama": "Transport",
+      "deskripsi": "Ojek online",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-07-06",
+      "jumlah": 30000
+    },
+    {
+      "id": "9",
+      "nama": "Hadiah",
+      "deskripsi": "Dari orang tua",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-07-07",
+      "jumlah": 500000
+    },
+    {
+      "id": "10",
+      "nama": "Kopi",
+      "deskripsi": "Ngopi bareng teman",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-07-08",
+      "jumlah": 25000
+    },
+    {
+      "id": "11",
+      "nama": "Investasi",
+      "deskripsi": "Dividen saham",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-07-09",
+      "jumlah": 300000
+    },
+    {
+      "id": "12",
+      "nama": "Internet",
+      "deskripsi": "Bayar wifi",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-07-10",
+      "jumlah": 150000
+    },
+    {
+      "id": "13",
+      "nama": "Jual Barang",
+      "deskripsi": "Jual buku bekas",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-07-11",
+      "jumlah": 100000
+    },
+    {
+      "id": "14",
+      "nama": "Listrik",
+      "deskripsi": "Bayar listrik",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-07-12",
+      "jumlah": 200000
+    }
+  ]
+}

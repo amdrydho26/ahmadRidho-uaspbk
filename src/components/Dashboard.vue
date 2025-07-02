@@ -1,36 +1,155 @@
 <script setup>
 import IconHome from '~icons/mdi/home';
-import { ref, computed } from 'vue';
+import IconDots from '~icons/mdi/dots-vertical';
+import IconAlert from '~icons/mdi/alert-circle-outline';
+import IconDownload from '~icons/mdi/download';
+import * as XLSX from 'xlsx';
+import { storeToRefs } from 'pinia';
+import { useTransaksiStore } from '../store';
+import { ref, reactive, computed } from 'vue';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
-const transaksi = ref([
-  { id: 1, nama: 'Gaji Bulanan', deskripsi: 'Gaji dari kantor', jenis: 'Pemasukan', tanggal: '2024-07-01', jumlah: 5000000 },
-  { id: 2, nama: 'Beli Buku', deskripsi: 'Buku kuliah', jenis: 'Pengeluaran', tanggal: '2024-07-02', jumlah: 150000 },
-  { id: 3, nama: 'Freelance', deskripsi: 'Proyek desain', jenis: 'Pemasukan', tanggal: '2024-07-03', jumlah: 1200000 },
-  { id: 4, nama: 'Makan Siang', deskripsi: 'Makan di luar', jenis: 'Pengeluaran', tanggal: '2024-07-03', jumlah: 50000 },
-  { id: 5, nama: 'Bonus', deskripsi: 'Bonus tahunan', jenis: 'Pemasukan', tanggal: '2024-07-04', jumlah: 2000000 },
-  { id: 6, nama: 'Transport', deskripsi: 'Ojek online', jenis: 'Pengeluaran', tanggal: '2024-07-04', jumlah: 30000 },
-  { id: 7, nama: 'Hadiah', deskripsi: 'Dari orang tua', jenis: 'Pemasukan', tanggal: '2024-07-05', jumlah: 500000 },
-  { id: 8, nama: 'Kopi', deskripsi: 'Ngopi bareng teman', jenis: 'Pengeluaran', tanggal: '2024-07-05', jumlah: 25000 },
-  { id: 9, nama: 'Investasi', deskripsi: 'Dividen saham', jenis: 'Pemasukan', tanggal: '2024-07-06', jumlah: 300000 },
-  { id: 10, nama: 'Internet', deskripsi: 'Bayar wifi', jenis: 'Pengeluaran', tanggal: '2024-07-06', jumlah: 150000 },
-  { id: 11, nama: 'Jual Barang', deskripsi: 'Jual buku bekas', jenis: 'Pemasukan', tanggal: '2024-07-07', jumlah: 100000 },
-  { id: 12, nama: 'Listrik', deskripsi: 'Bayar listrik', jenis: 'Pengeluaran', tanggal: '2024-07-07', jumlah: 200000 },
-  { id: 13, nama: 'Proyek', deskripsi: 'Proyek freelance', jenis: 'Pemasukan', tanggal: '2024-07-08', jumlah: 800000 },
-  { id: 14, nama: 'Makan Malam', deskripsi: 'Makan di luar', jenis: 'Pengeluaran', tanggal: '2024-07-08', jumlah: 60000 },
-  { id: 15, nama: 'THR', deskripsi: 'Tunjangan Hari Raya', jenis: 'Pemasukan', tanggal: '2024-07-09', jumlah: 1000000 },
-  { id: 16, nama: 'Pulsa', deskripsi: 'Isi pulsa', jenis: 'Pengeluaran', tanggal: '2024-07-09', jumlah: 50000 },
-]);
+const store = useTransaksiStore();
+const { transaksi, totalPemasukan, totalPengeluaran, saldo } = storeToRefs(store);
+const showEditModal = ref(false);
+const selectedTransaksi = reactive({
+  id: null,
+  nama: '',
+  deskripsi: '',
+  tanggal: '',
+  jumlah: 0,
+  jenis: 'Pemasukan',
+});
+const originalTransaksi = ref({});
+const saldoComputed = computed(() => store.saldo);
+const showWarning = ref(false);
+const warningMessage = ref('');
 
-// Ringkasan
-const totalPemasukan = computed(() => transaksi.value.filter(t => t.jenis === 'Pemasukan').reduce((a, b) => a + b.jumlah, 0));
-const totalPengeluaran = computed(() => transaksi.value.filter(t => t.jenis === 'Pengeluaran').reduce((a, b) => a + b.jumlah, 0));
-const saldo = computed(() => totalPemasukan.value - totalPengeluaran.value);
+function openEditModal(item) {
+  Object.assign(selectedTransaksi, item);
+  originalTransaksi.value = { ...item };
+  showEditModal.value = true;
+}
+
+function closeEditModal() {
+  showEditModal.value = false;
+  Object.assign(selectedTransaksi, {
+    id: null,
+    nama: '',
+    deskripsi: '',
+    tanggal: '',
+    jumlah: 0,
+    jenis: 'Pemasukan',
+  });
+}
+
+function submitEdit() {
+  const saldoTanpaTransaksiIni = saldoComputed.value + (selectedTransaksi.jenis === 'Pengeluaran' ? originalTransaksi.value.jumlah : 0) - (originalTransaksi.value.jenis === 'Pengeluaran' ? originalTransaksi.value.jumlah : 0);
+  if (
+    selectedTransaksi.jenis === 'Pengeluaran' &&
+    Number(selectedTransaksi.jumlah) > saldoTanpaTransaksiIni
+  ) {
+    warningMessage.value = 'Jumlah pengeluaran tidak boleh melebihi saldo!';
+    showWarning.value = true;
+    return;
+  }
+  store.editTransaksi({ ...selectedTransaksi });
+  closeEditModal();
+}
+
+function hapusTransaksi() {
+  store.hapusTransaksi(selectedTransaksi.id);
+  closeEditModal();
+}
+
+const isChanged = computed(() => {
+  return (
+    selectedTransaksi.nama !== originalTransaksi.value.nama ||
+    selectedTransaksi.deskripsi !== originalTransaksi.value.deskripsi ||
+    selectedTransaksi.tanggal !== originalTransaksi.value.tanggal ||
+    selectedTransaksi.jumlah !== originalTransaksi.value.jumlah ||
+    selectedTransaksi.jenis !== originalTransaksi.value.jenis
+  );
+});
+
+function exportToExcel() {
+  // Ringkasan
+  const summary = [
+    ["Total Pemasukan", totalPemasukan.value],
+    ["Total Pengeluaran", totalPengeluaran.value],
+    ["Saldo", saldo.value],
+    [],
+  ];
+  // Data transaksi
+  const data = transaksi.value.map(t => ({
+    ID: t.id,
+    Nama: t.nama,
+    Deskripsi: t.deskripsi,
+    Jenis: t.jenis,
+    Tanggal: t.tanggal,
+    Jumlah: t.jumlah
+  }));
+  const ws = XLSX.utils.json_to_sheet(data, { origin: summary.length });
+  // Header tebal
+  const header = ["ID", "Nama", "Deskripsi", "Jenis", "Tanggal", "Jumlah"];
+  XLSX.utils.sheet_add_aoa(ws, [header], { origin: summary.length });
+  // Ringkasan di atas
+  XLSX.utils.sheet_add_aoa(ws, summary, { origin: 0 });
+  // Border style (manual, sederhana)
+  const range = XLSX.utils.decode_range(ws['!ref']);
+  for (let R = summary.length; R <= range.e.r; ++R) {
+    for (let C = 0; C <= 5; ++C) {
+      const cell = ws[XLSX.utils.encode_cell({ r: R, c: C })];
+      if (cell) {
+        cell.s = { border: { top: {style: 'thin'}, left: {style: 'thin'}, right: {style: 'thin'}, bottom: {style: 'thin'} } };
+      }
+    }
+  }
+  // Workbook
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Transaksi');
+  // Sheet style (header bold)
+  ws['A' + (summary.length + 1)].s = ws['B' + (summary.length + 1)].s = ws['C' + (summary.length + 1)].s = ws['D' + (summary.length + 1)].s = ws['E' + (summary.length + 1)].s = ws['F' + (summary.length + 1)].s = { font: { bold: true } };
+  XLSX.writeFile(wb, 'data-transaksi.xlsx');
+}
+
+function exportToPDF() {
+  const doc = new jsPDF();
+  doc.setFontSize(14);
+  doc.text('Ringkasan Keuangan', 14, 16);
+  doc.setFontSize(11);
+  doc.text(`Total Pemasukan: Rp${totalPemasukan.value.toLocaleString('id-ID')}`, 14, 26);
+  doc.text(`Total Pengeluaran: Rp${totalPengeluaran.value.toLocaleString('id-ID')}`, 14, 33);
+  doc.text(`Saldo: Rp${saldo.value.toLocaleString('id-ID')}`, 14, 40);
+  doc.setFontSize(14);
+  doc.text('Data Transaksi', 14, 54);
+  autoTable(doc, {
+    startY: 58,
+    head: [["ID", "Nama", "Deskripsi", "Jenis", "Tanggal", "Jumlah"]],
+    body: transaksi.value.map(t => [
+      t.id,
+      t.nama,
+      t.deskripsi,
+      t.jenis,
+      t.tanggal,
+      `Rp${t.jumlah.toLocaleString('id-ID')}`
+    ]),
+    styles: { fontSize: 10 },
+    headStyles: { fillColor: [0, 122, 255] },
+    margin: { left: 14, right: 14 }
+  });
+  doc.save('data-transaksi.pdf');
+}
 </script>
 
 <template>
-  <div class="page-header">
-    <span class="page-icon"><IconHome /></span>
-    <h1>Dashboard</h1>
+  <div class="dashboard-header">
+    <div class="page-header">
+      <span class="page-icon"><IconHome /></span>
+      <h1>Dashboard</h1>
+    </div>
+    <button class="export-btn" @click="exportToPDF" title="Export PDF"><IconDownload /></button>
   </div>
   <div class="summary-cards">
     <div class="summary-card pemasukan">
@@ -57,13 +176,69 @@ const saldo = computed(() => totalPemasukan.value - totalPengeluaran.value);
         <div class="transaksi-jumlah" :class="item.jenis === 'Pemasukan' ? 'pemasukan' : 'pengeluaran'">
           {{ item.jenis === 'Pemasukan' ? '+' : '-' }}Rp{{ item.jumlah.toLocaleString('id-ID') }}
         </div>
+        <span class="edit-icon" @click="openEditModal(item)"><IconDots /></span>
         <div class="transaksi-tanggal">{{ item.tanggal }}</div>
       </li>
     </ul>
   </div>
+  <div v-if="showEditModal" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Edit Transaksi</h2>
+      <form @submit.prevent="submitEdit">
+        <div class="form-group">
+          <label>Nama Transaksi</label>
+          <input v-model="selectedTransaksi.nama" type="text" required />
+        </div>
+        <div class="form-group">
+          <label>Deskripsi Transaksi</label>
+          <input v-model="selectedTransaksi.deskripsi" type="text" />
+        </div>
+        <div class="form-group">
+          <label>Tanggal</label>
+          <input v-model="selectedTransaksi.tanggal" type="date" required />
+        </div>
+        <div class="form-group">
+          <label>Jumlah</label>
+          <input v-model.number="selectedTransaksi.jumlah" type="number" min="0" required />
+        </div>
+        <div class="form-group">
+          <label>Jenis</label>
+          <select v-model="selectedTransaksi.jenis" required>
+            <option value="Pemasukan">Pemasukan</option>
+            <option value="Pengeluaran">Pengeluaran</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" @click="hapusTransaksi" class="btn-delete">Hapus</button>
+          <div class="modal-actions-right">
+            <button type="button" @click="closeEditModal" class="btn-cancel">Batal</button>
+            <button type="submit" class="btn-save" :disabled="!isChanged">Simpan</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div v-if="showWarning" class="modal-overlay">
+    <div class="modal-content warning-modal" style="max-width:340px;min-width:260px;text-align:center;">
+      <div class="warning-header">
+        <IconAlert class="icon-alert" />
+        <span class="warning-title">Peringatan</span>
+      </div>
+      <p style="margin-bottom:1.5rem;">{{ warningMessage }}</p>
+      <button @click="showWarning=false" class="btn-save" style="width:100%;">OK</button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  z-index: 2;
+  position: relative;
+}
 .page-header {
   display: flex;
   align-items: center;
@@ -137,10 +312,10 @@ const saldo = computed(() => totalPemasukan.value - totalPengeluaran.value);
   flex: 0 0 140px;
 }
 .transaksi-jumlah.pemasukan {
-  color: #1dbf73;
+  color: #34C759;
 }
 .transaksi-jumlah.pengeluaran {
-  color: #e80000;
+  color: #FF3B30;
 }
 .transaksi-tanggal {
   position: absolute;
@@ -181,13 +356,13 @@ const saldo = computed(() => totalPemasukan.value - totalPengeluaran.value);
   font-weight: 700;
 }
 .summary-card.pemasukan .value {
-  color: #1dbf73;
+  color: #34C759;
 }
 .summary-card.pengeluaran .value {
-  color: #e80000;
+  color: #FF3B30;
 }
 .summary-card.saldo .value {
-  color: #1a4d8f;
+  color: #007AFF;
 }
 .transaksi-scrollable {
   flex: 1 1 0;
@@ -218,5 +393,186 @@ const saldo = computed(() => totalPemasukan.value - totalPengeluaran.value);
   display: none;
   width: 0;
   height: 0;
+}
+.edit-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.edit-icon:hover {
+  color: #007AFF;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  min-width: 420px;
+  max-width: 600px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  position: relative;
+}
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.modal-actions-right {
+  display: flex;
+  gap: 1rem;
+}
+.btn-cancel {
+  background: #eee;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-cancel:hover {
+  background: #ccc;
+}
+.btn-delete {
+  background: #FF3B30;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: auto;
+}
+.btn-delete:hover {
+  background: #b2271c;
+}
+.btn-save {
+  background: #007AFF;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-save:hover {
+  background: #0051a8;
+}
+.btn-save:disabled {
+  background: #bcd6fa;
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 1;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.modal-content .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.modal-content .form-group label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+.modal-content .form-group input {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+  color: inherit;
+  outline: none;
+  transition: border 0.2s;
+}
+.modal-content .form-group input:focus {
+  border-color: #bdbdbd;
+}
+.modal-content .form-group select {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+  color: inherit;
+  outline: none;
+  transition: border 0.2s;
+}
+.modal-content .form-group select:focus {
+  border-color: #bdbdbd;
+}
+/* Hilangkan spinner pada input type number di modal */
+.modal-content input[type=number]::-webkit-inner-spin-button, 
+.modal-content input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.warning-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.warning-header .icon-alert {
+  color: #FF9500;
+  font-size: 2rem;
+}
+.warning-header .warning-title {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+.modal-content.warning-modal {
+  min-height: 180px;
+}
+.export-btn {
+  background: #007AFF;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+.export-btn:hover {
+  background: #0051a8;
 }
 </style> 
