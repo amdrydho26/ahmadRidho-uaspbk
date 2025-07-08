@@ -1,6 +1,6 @@
 <template>
   <div :class="['app-container', { 'login-bg': route.path === '/login' }]">
-    <Sidebar v-if="showSidebar" />
+    <Sidebar v-if="showSidebar" :animated="sidebarAnimated" />
     <main :class="['content', { 'login-content': route.path === '/login' }]">
       <router-view />
     </main>
@@ -10,10 +10,23 @@
 <script setup>
 import Sidebar from './components/Sidebar.vue'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const route = useRoute()
 const showSidebar = computed(() => route.path !== '/login')
+const sidebarAnimated = ref(false)
+
+// Trigger animasi hanya saat pertama kali masuk ke Dashboard setelah login
+watch(
+  () => route.path,
+  (newPath, oldPath) => {
+    if (oldPath === '/login' && newPath === '/') {
+      sidebarAnimated.value = true
+      setTimeout(() => { sidebarAnimated.value = false }, 600)
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style>
@@ -56,5 +69,19 @@ html, body {
   align-items: center;
   justify-content: center;
   background: #fff !important;
+}
+.sidebar-slide-fade-enter-active {
+  transition: opacity 0.6s cubic-bezier(.4,1,.7,1), transform 0.6s cubic-bezier(.4,1,.7,1);
+}
+.sidebar-slide-fade-enter-from {
+  opacity: 0;
+  transform: translateX(-48px);
+}
+.sidebar-slide-fade-enter-to {
+  opacity: 1;
+  transform: translateX(0);
+}
+.sidebar-animate {
+  /* Optional: force reflow for key change */
 }
 </style>

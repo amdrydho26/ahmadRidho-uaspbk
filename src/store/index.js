@@ -22,7 +22,8 @@ export const useTransaksiStore = defineStore('transaksi', {
       try {
         const res = await axios.get('http://localhost:3000/transaksi');
         this.transaksi = res.data;
-        this.nextId = this.transaksi.length > 0 ? Math.max(...this.transaksi.map(t => t.id)) + 1 : 1;
+        // nextId harus string dan berdasarkan id string terbesar
+        this.nextId = this.transaksi.length > 0 ? (String(Math.max(...this.transaksi.map(t => Number(t.id))) + 1)) : "1";
         this.error = null;
       } catch (e) {
         this.error = 'Gagal mengambil data transaksi';
@@ -32,9 +33,10 @@ export const useTransaksiStore = defineStore('transaksi', {
     },
     async tambahTransaksi(data) {
       try {
-        const res = await axios.post('http://localhost:3000/transaksi', { ...data, id: this.nextId });
+        // id selalu string
+        const res = await axios.post('http://localhost:3000/transaksi', { ...data, id: String(this.nextId) });
         this.transaksi.push(res.data);
-        this.nextId++;
+        this.nextId = String(Number(this.nextId) + 1);
         this.error = null;
       } catch (e) {
         this.error = 'Gagal menambah transaksi';

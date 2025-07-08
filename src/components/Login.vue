@@ -157,7 +157,6 @@ function handleLogin() {
 .login-logo {
   width: 64px;
   height: 64px;
-  margin-bottom: 1rem;
 }
 h2 {
   margin-bottom: 1.5rem;

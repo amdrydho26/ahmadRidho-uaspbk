@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-root">
+  <div class="sidebar-root" :class="{ 'sidebar-animate': animated }">
     <div class="sidebar-logo"><span class="icon-logo"><img :src="logo" alt="Logo" class="sidebar-logo-img" /></span>AturKuy</div>
     <div class="sidebar-search">
       <input type="text" placeholder="Search" v-model="search" />
@@ -26,10 +26,22 @@
       </button>
     </div>
   </div>
+  <div v-if="showLogoutModal" class="modal-overlay">
+    <transition name="modal-slide-up">
+      <div v-if="showLogoutModal" class="modal-content modal-slide-up">
+        <h2 style="text-align:left;">Konfirmasi Logout</h2>
+        <div style="margin-bottom:1rem;text-align:left;">Apakah Anda yakin ingin logout?</div>
+        <div class="modal-actions">
+          <button @click="cancelLogout" class="btn-cancel">Batal</button>
+          <button @click="confirmLogout" class="btn-save">Logout</button>
+        </div>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, defineProps } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import IconHome from '~icons/mdi/home';
 import IconPlus from '~icons/mdi/plus';
@@ -38,6 +50,7 @@ import IconChartLine from '~icons/mdi/chart-line';
 import IconCash from '~icons/mdi/cash';
 import IconLogout from '~icons/mdi/logout';
 import logo from '../assets/logo.png';
+import IconAlert from '~icons/mdi/alert';
 
 const route = useRoute();
 const search = ref('');
@@ -52,10 +65,18 @@ const filteredMenu = computed(() => {
   return menuItems.filter(item => item.label.toLowerCase().includes(search.value.toLowerCase()));
 });
 const router = useRouter();
+const showLogoutModal = ref(false);
+const props = defineProps({ animated: Boolean });
 
 function handleLogout() {
+  showLogoutModal.value = true;
+}
+function confirmLogout() {
   localStorage.removeItem('isLoggedIn');
   router.push('/login');
+}
+function cancelLogout() {
+  showLogoutModal.value = false;
 }
 </script>
 
@@ -72,6 +93,19 @@ function handleLogout() {
   min-height: calc(100vh - 5rem);
   margin: 2.5rem 0 2.5rem 2.5rem;
   box-sizing: border-box;
+}
+.sidebar-root.sidebar-animate {
+  animation: sidebarSlideFade 0.6s cubic-bezier(.4,1,.7,1);
+}
+@keyframes sidebarSlideFade {
+  0% {
+    opacity: 0;
+    transform: translateX(-48px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 .sidebar-logo {
   font-size: 2rem;
@@ -287,5 +321,80 @@ function handleLogout() {
   margin-right: 0.3rem;
   margin-left: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  min-width: 420px;
+  max-width: 600px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  position: relative;
+}
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.modal-slide-up {
+  animation: fadeSlideUpModal 0.22s cubic-bezier(.4,1,.7,1) both;
+}
+@keyframes fadeSlideUpModal {
+  0% {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.btn-cancel {
+  background: #eee;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-cancel:hover {
+  background: #ccc;
+}
+.btn-save {
+  background: #007AFF;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-save:hover {
+  background: #0051a8;
 }
 </style> 
