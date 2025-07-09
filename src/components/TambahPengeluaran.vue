@@ -490,7 +490,7 @@ input[type=number]::-webkit-outer-spin-button {
   flex: 1;
 }
 .btn-calc-toggle {
-  min-height: 40px;
+  min-height: 45px;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   background: #f6f6f6;
