@@ -1,64 +1,484 @@
 {
   "transaksi": [
-    {"id":1,"nama":"Gaji Bulanan","deskripsi":"Gaji bulan April","jenis":"Pemasukan","tanggal":"2024-04-01","jumlah":5000000},
-    {"id":2,"nama":"Makan Siang","deskripsi":"Warung Padang","jenis":"Pengeluaran","tanggal":"2024-04-01","jumlah":25000},
-    {"id":3,"nama":"Bonus Proyek","deskripsi":"Bonus dari proyek A","jenis":"Pemasukan","tanggal":"2024-04-02","jumlah":1200000},
-    {"id":4,"nama":"Transport","deskripsi":"Ojek online","jenis":"Pengeluaran","tanggal":"2024-04-02","jumlah":15000},
-    {"id":5,"nama":"Belanja Bulanan","deskripsi":"Supermarket","jenis":"Pengeluaran","tanggal":"2024-04-03","jumlah":350000},
-    {"id":6,"nama":"Freelance","deskripsi":"Bayaran desain logo","jenis":"Pemasukan","tanggal":"2024-04-03","jumlah":800000},
-    {"id":7,"nama":"Kopi","deskripsi":"Kedai kopi","jenis":"Pengeluaran","tanggal":"2024-04-04","jumlah":18000},
-    {"id":8,"nama":"Makan Malam","deskripsi":"Restoran Jepang","jenis":"Pengeluaran","tanggal":"2024-04-04","jumlah":60000},
-    {"id":9,"nama":"Penjualan Barang","deskripsi":"Jual sepatu bekas","jenis":"Pemasukan","tanggal":"2024-04-05","jumlah":200000},
-    {"id":10,"nama":"Listrik","deskripsi":"Token listrik","jenis":"Pengeluaran","tanggal":"2024-04-05","jumlah":150000},
-    {"id":11,"nama":"Internet","deskripsi":"Tagihan bulanan","jenis":"Pengeluaran","tanggal":"2024-04-06","jumlah":300000},
-    {"id":12,"nama":"Hadiah","deskripsi":"Ulang tahun teman","jenis":"Pengeluaran","tanggal":"2024-04-06","jumlah":50000},
-    {"id":13,"nama":"Dividen Saham","deskripsi":"Dividen BBRI","jenis":"Pemasukan","tanggal":"2024-04-07","jumlah":90000},
-    {"id":14,"nama":"Makan Siang","deskripsi":"Warung Sunda","jenis":"Pengeluaran","tanggal":"2024-04-07","jumlah":27000},
-    {"id":15,"nama":"Jual Buku","deskripsi":"Buku bekas","jenis":"Pemasukan","tanggal":"2024-04-08","jumlah":50000},
-    {"id":16,"nama":"Transport","deskripsi":"Bus kota","jenis":"Pengeluaran","tanggal":"2024-04-08","jumlah":8000},
-    {"id":17,"nama":"Gaji Bulanan","deskripsi":"Gaji bulan Mei","jenis":"Pemasukan","tanggal":"2024-05-01","jumlah":5000000},
-    {"id":18,"nama":"Makan Siang","deskripsi":"Warung Padang","jenis":"Pengeluaran","tanggal":"2024-05-01","jumlah":25000},
-    {"id":19,"nama":"Bonus Proyek","deskripsi":"Bonus dari proyek B","jenis":"Pemasukan","tanggal":"2024-05-02","jumlah":1000000},
-    {"id":20,"nama":"Transport","deskripsi":"Ojek online","jenis":"Pengeluaran","tanggal":"2024-05-02","jumlah":15000},
-    {"id":21,"nama":"Belanja Bulanan","deskripsi":"Supermarket","jenis":"Pengeluaran","tanggal":"2024-05-03","jumlah":400000},
-    {"id":22,"nama":"Freelance","deskripsi":"Bayaran desain web","jenis":"Pemasukan","tanggal":"2024-05-03","jumlah":900000},
-    {"id":23,"nama":"Kopi","deskripsi":"Kedai kopi","jenis":"Pengeluaran","tanggal":"2024-05-04","jumlah":18000},
-    {"id":24,"nama":"Makan Malam","deskripsi":"Restoran Korea","jenis":"Pengeluaran","tanggal":"2024-05-04","jumlah":70000},
-    {"id":25,"nama":"Penjualan Barang","deskripsi":"Jual tas bekas","jenis":"Pemasukan","tanggal":"2024-05-05","jumlah":150000},
-    {"id":26,"nama":"Listrik","deskripsi":"Token listrik","jenis":"Pengeluaran","tanggal":"2024-05-05","jumlah":140000},
-    {"id":27,"nama":"Internet","deskripsi":"Tagihan bulanan","jenis":"Pengeluaran","tanggal":"2024-05-06","jumlah":310000},
-    {"id":28,"nama":"Hadiah","deskripsi":"Ulang tahun saudara","jenis":"Pengeluaran","tanggal":"2024-05-06","jumlah":60000},
-    {"id":29,"nama":"Dividen Saham","deskripsi":"Dividen TLKM","jenis":"Pemasukan","tanggal":"2024-05-07","jumlah":95000},
-    {"id":30,"nama":"Makan Siang","deskripsi":"Warung Sunda","jenis":"Pengeluaran","tanggal":"2024-05-07","jumlah":27000},
-    {"id":31,"nama":"Jual Buku","deskripsi":"Buku pelajaran","jenis":"Pemasukan","tanggal":"2024-05-08","jumlah":60000},
-    {"id":32,"nama":"Transport","deskripsi":"Bus kota","jenis":"Pengeluaran","tanggal":"2024-05-08","jumlah":9000},
-    {"id":33,"nama":"Gaji Bulanan","deskripsi":"Gaji bulan Juni","jenis":"Pemasukan","tanggal":"2024-06-01","jumlah":5000000},
-    {"id":34,"nama":"Makan Siang","deskripsi":"Warung Padang","jenis":"Pengeluaran","tanggal":"2024-06-01","jumlah":25000},
-    {"id":35,"nama":"Bonus Proyek","deskripsi":"Bonus dari proyek C","jenis":"Pemasukan","tanggal":"2024-06-02","jumlah":1100000},
-    {"id":36,"nama":"Transport","deskripsi":"Ojek online","jenis":"Pengeluaran","tanggal":"2024-06-02","jumlah":15000},
-    {"id":37,"nama":"Belanja Bulanan","deskripsi":"Supermarket","jenis":"Pengeluaran","tanggal":"2024-06-03","jumlah":370000},
-    {"id":38,"nama":"Freelance","deskripsi":"Bayaran desain poster","jenis":"Pemasukan","tanggal":"2024-06-03","jumlah":850000},
-    {"id":39,"nama":"Kopi","deskripsi":"Kedai kopi","jenis":"Pengeluaran","tanggal":"2024-06-04","jumlah":18000},
-    {"id":40,"nama":"Makan Malam","deskripsi":"Restoran Italia","jenis":"Pengeluaran","tanggal":"2024-06-04","jumlah":80000},
-    {"id":41,"nama":"Penjualan Barang","deskripsi":"Jual baju bekas","jenis":"Pemasukan","tanggal":"2024-06-05","jumlah":180000},
-    {"id":42,"nama":"Listrik","deskripsi":"Token listrik","jenis":"Pengeluaran","tanggal":"2024-06-05","jumlah":130000},
-    {"id":43,"nama":"Internet","deskripsi":"Tagihan bulanan","jenis":"Pengeluaran","tanggal":"2024-06-06","jumlah":320000},
-    {"id":44,"nama":"Hadiah","deskripsi":"Ulang tahun ibu","jenis":"Pengeluaran","tanggal":"2024-06-06","jumlah":70000},
-    {"id":45,"nama":"Dividen Saham","deskripsi":"Dividen UNVR","jenis":"Pemasukan","tanggal":"2024-06-07","jumlah":92000},
-    {"id":46,"nama":"Makan Siang","deskripsi":"Warung Sunda","jenis":"Pengeluaran","tanggal":"2024-06-07","jumlah":27000},
-    {"id":47,"nama":"Jual Buku","deskripsi":"Buku novel","jenis":"Pemasukan","tanggal":"2024-06-08","jumlah":55000},
-    {"id":48,"nama":"Transport","deskripsi":"Bus kota","jenis":"Pengeluaran","tanggal":"2024-06-08","jumlah":8500},
-    {"id":49,"nama":"Makan Siang","deskripsi":"Warung Padang","jenis":"Pengeluaran","tanggal":"2024-06-09","jumlah":25000},
-    {"id":50,"nama":"Freelance","deskripsi":"Bayaran desain aplikasi","jenis":"Pemasukan","tanggal":"2024-06-09","jumlah":950000},
-    {"id":51,"nama":"Jual Pulsa","deskripsi":"Penjualan pulsa","jenis":"Pemasukan","tanggal":"2024-04-10","jumlah":100000},
-    {"id":52,"nama":"Bensin","deskripsi":"Isi bensin motor","jenis":"Pengeluaran","tanggal":"2024-04-11","jumlah":40000},
-    {"id":53,"nama":"Makan Pagi","deskripsi":"Sarapan bubur","jenis":"Pengeluaran","tanggal":"2024-05-10","jumlah":15000},
-    {"id":54,"nama":"Jasa Editing","deskripsi":"Bayaran edit video","jenis":"Pemasukan","tanggal":"2024-05-11","jumlah":300000},
-    {"id":55,"nama":"Laundry","deskripsi":"Cuci pakaian","jenis":"Pengeluaran","tanggal":"2024-06-10","jumlah":25000},
-    {"id":56,"nama":"Jual Barang Bekas","deskripsi":"Jual laptop lama","jenis":"Pemasukan","tanggal":"2024-06-11","jumlah":2000000},
-    {"id":57,"nama":"Makan Malam","deskripsi":"Restoran Padang","jenis":"Pengeluaran","tanggal":"2024-05-12","jumlah":50000},
-    {"id":58,"nama":"Bonus Lembur","deskripsi":"Bonus kerja lembur","jenis":"Pemasukan","tanggal":"2024-04-12","jumlah":250000},
-    {"id":59,"nama":"Langganan Streaming","deskripsi":"Netflix bulanan","jenis":"Pengeluaran","tanggal":"2024-05-13","jumlah":55000},
-    {"id":60,"nama":"Jual Aksesoris","deskripsi":"Jual case HP","jenis":"Pemasukan","tanggal":"2024-06-12","jumlah":120000}
+    {
+      "id": "1",
+      "nama": "Gaji Bulanan",
+      "deskripsi": "Gaji bulan April",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-04-01",
+      "jumlah": 5000000
+    },
+    {
+      "id": "2",
+      "nama": "Makan Siang",
+      "deskripsi": "Warung Padang",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-01",
+      "jumlah": 25000
+    },
+    {
+      "id": "3",
+      "nama": "Bonus Proyek",
+      "deskripsi": "Bonus dari proyek A",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-04-02",
+      "jumlah": 1200000
+    },
+    {
+      "id": "4",
+      "nama": "Transport",
+      "deskripsi": "Ojek online",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-02",
+      "jumlah": 15000
+    },
+    {
+      "id": "5",
+      "nama": "Belanja Bulanan",
+      "deskripsi": "Supermarket",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-03",
+      "jumlah": 350000
+    },
+    {
+      "id": "6",
+      "nama": "Freelance",
+      "deskripsi": "Bayaran desain logo",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-04-03",
+      "jumlah": 800000
+    },
+    {
+      "id": "7",
+      "nama": "Kopi",
+      "deskripsi": "Kedai kopi",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-04",
+      "jumlah": 18000
+    },
+    {
+      "id": "8",
+      "nama": "Makan Malam",
+      "deskripsi": "Restoran Jepang",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-04",
+      "jumlah": 60000
+    },
+    {
+      "id": "9",
+      "nama": "Penjualan Barang",
+      "deskripsi": "Jual sepatu bekas",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-04-05",
+      "jumlah": 200000
+    },
+    {
+      "id": "10",
+      "nama": "Listrik",
+      "deskripsi": "Token listrik",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-05",
+      "jumlah": 150000
+    },
+    {
+      "id": "11",
+      "nama": "Internet",
+      "deskripsi": "Tagihan bulanan",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-06",
+      "jumlah": 300000
+    },
+    {
+      "id": "12",
+      "nama": "Hadiah",
+      "deskripsi": "Ulang tahun teman",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-06",
+      "jumlah": 50000
+    },
+    {
+      "id": "13",
+      "nama": "Dividen Saham",
+      "deskripsi": "Dividen BBRI",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-04-07",
+      "jumlah": 90000
+    },
+    {
+      "id": "14",
+      "nama": "Makan Siang",
+      "deskripsi": "Warung Sunda",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-07",
+      "jumlah": 27000
+    },
+    {
+      "id": "15",
+      "nama": "Jual Buku",
+      "deskripsi": "Buku bekas",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-04-08",
+      "jumlah": 50000
+    },
+    {
+      "id": "16",
+      "nama": "Transport",
+      "deskripsi": "Bus kota",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-08",
+      "jumlah": 8000
+    },
+    {
+      "id": "17",
+      "nama": "Gaji Bulanan",
+      "deskripsi": "Gaji bulan Mei",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-05-01",
+      "jumlah": 5000000
+    },
+    {
+      "id": "18",
+      "nama": "Makan Siang",
+      "deskripsi": "Warung Padang",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-01",
+      "jumlah": 25000
+    },
+    {
+      "id": "19",
+      "nama": "Bonus Proyek",
+      "deskripsi": "Bonus dari proyek B",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-05-02",
+      "jumlah": 1000000
+    },
+    {
+      "id": "20",
+      "nama": "Transport",
+      "deskripsi": "Ojek online",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-02",
+      "jumlah": 15000
+    },
+    {
+      "id": "21",
+      "nama": "Belanja Bulanan",
+      "deskripsi": "Supermarket",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-03",
+      "jumlah": 400000
+    },
+    {
+      "id": "22",
+      "nama": "Freelance",
+      "deskripsi": "Bayaran desain web",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-05-03",
+      "jumlah": 900000
+    },
+    {
+      "id": "23",
+      "nama": "Kopi",
+      "deskripsi": "Kedai kopi",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-04",
+      "jumlah": 18000
+    },
+    {
+      "id": "24",
+      "nama": "Makan Malam",
+      "deskripsi": "Restoran Korea",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-04",
+      "jumlah": 70000
+    },
+    {
+      "id": "25",
+      "nama": "Penjualan Barang",
+      "deskripsi": "Jual tas bekas",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-05-05",
+      "jumlah": 150000
+    },
+    {
+      "id": "26",
+      "nama": "Listrik",
+      "deskripsi": "Token listrik",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-05",
+      "jumlah": 140000
+    },
+    {
+      "id": "27",
+      "nama": "Internet",
+      "deskripsi": "Tagihan bulanan",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-06",
+      "jumlah": 310000
+    },
+    {
+      "id": "28",
+      "nama": "Hadiah",
+      "deskripsi": "Ulang tahun saudara",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-06",
+      "jumlah": 60000
+    },
+    {
+      "id": "29",
+      "nama": "Dividen Saham",
+      "deskripsi": "Dividen TLKM",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-05-07",
+      "jumlah": 95000
+    },
+    {
+      "id": "30",
+      "nama": "Makan Siang",
+      "deskripsi": "Warung Sunda",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-07",
+      "jumlah": 27000
+    },
+    {
+      "id": "31",
+      "nama": "Jual Buku",
+      "deskripsi": "Buku pelajaran",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-05-08",
+      "jumlah": 60000
+    },
+    {
+      "id": "32",
+      "nama": "Transport",
+      "deskripsi": "Bus kota",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-08",
+      "jumlah": 9000
+    },
+    {
+      "id": "33",
+      "nama": "Gaji Bulanan",
+      "deskripsi": "Gaji bulan Juni",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-06-01",
+      "jumlah": 5000000
+    },
+    {
+      "id": "34",
+      "nama": "Makan Siang",
+      "deskripsi": "Warung Padang",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-01",
+      "jumlah": 25000
+    },
+    {
+      "id": "35",
+      "nama": "Bonus Proyek",
+      "deskripsi": "Bonus dari proyek C",
+      "tanggal": "2024-06-02",
+      "jumlah": 1100000,
+      "jenis": "Pemasukan"
+    },
+    {
+      "id": "36",
+      "nama": "Transport",
+      "deskripsi": "Ojek online",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-02",
+      "jumlah": 15000
+    },
+    {
+      "id": "37",
+      "nama": "Belanja Bulanan",
+      "deskripsi": "Supermarket",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-03",
+      "jumlah": 370000
+    },
+    {
+      "id": "38",
+      "nama": "Freelance",
+      "deskripsi": "Bayaran desain poster UIR",
+      "tanggal": "2024-06-03",
+      "jumlah": 850000,
+      "jenis": "Pemasukan"
+    },
+    {
+      "id": "39",
+      "nama": "Kopi",
+      "deskripsi": "Kedai kopi",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-04",
+      "jumlah": 18000
+    },
+    {
+      "id": "40",
+      "nama": "Makan Malam",
+      "deskripsi": "Restoran Italia",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-04",
+      "jumlah": 80000
+    },
+    {
+      "id": "41",
+      "nama": "Penjualan Barang",
+      "deskripsi": "Jual baju bekas",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-06-05",
+      "jumlah": 180000
+    },
+    {
+      "id": "42",
+      "nama": "Listrik",
+      "deskripsi": "Token listrik",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-05",
+      "jumlah": 130000
+    },
+    {
+      "id": "43",
+      "nama": "Internet",
+      "deskripsi": "Tagihan bulanan",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-06",
+      "jumlah": 320000
+    },
+    {
+      "id": "44",
+      "nama": "Hadiah",
+      "deskripsi": "Ulang tahun ibu",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-06",
+      "jumlah": 70000
+    },
+    {
+      "id": "45",
+      "nama": "Dividen Saham",
+      "deskripsi": "Dividen UNVR",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-06-07",
+      "jumlah": 92000
+    },
+    {
+      "id": "46",
+      "nama": "Makan Siang",
+      "deskripsi": "Warung Sunda",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-07",
+      "jumlah": 27000
+    },
+    {
+      "id": "47",
+      "nama": "Jual Buku",
+      "deskripsi": "Buku novel",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-06-08",
+      "jumlah": 55000
+    },
+    {
+      "id": "48",
+      "nama": "Transport",
+      "deskripsi": "Bus kota",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-08",
+      "jumlah": 8500
+    },
+    {
+      "id": "49",
+      "nama": "Makan Siang",
+      "deskripsi": "Warung Padang",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-09",
+      "jumlah": 25000
+    },
+    {
+      "id": "50",
+      "nama": "Freelance",
+      "deskripsi": "Bayaran desain aplikasi",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-06-09",
+      "jumlah": 950000
+    },
+    {
+      "id": "51",
+      "nama": "Jual Pulsa",
+      "deskripsi": "Penjualan pulsa",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-04-10",
+      "jumlah": 100000
+    },
+    {
+      "id": "52",
+      "nama": "Bensin",
+      "deskripsi": "Isi bensin motor",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-04-11",
+      "jumlah": 40000
+    },
+    {
+      "id": "53",
+      "nama": "Makan Pagi",
+      "deskripsi": "Sarapan bubur",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-10",
+      "jumlah": 15000
+    },
+    {
+      "id": "54",
+      "nama": "Jasa Editing",
+      "deskripsi": "Bayaran edit video",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-05-11",
+      "jumlah": 300000
+    },
+    {
+      "id": "55",
+      "nama": "Laundry",
+      "deskripsi": "Cuci pakaian",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-06-10",
+      "jumlah": 25000
+    },
+    {
+      "id": "56",
+      "nama": "Jual Barang Bekas",
+      "deskripsi": "Jual laptop lama",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-06-11",
+      "jumlah": 2000000
+    },
+    {
+      "id": "57",
+      "nama": "Makan Malam",
+      "deskripsi": "Restoran Padang",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-12",
+      "jumlah": 50000
+    },
+    {
+      "id": "58",
+      "nama": "Bonus Lembur",
+      "deskripsi": "Bonus kerja lembur",
+      "jenis": "Pemasukan",
+      "tanggal": "2024-04-12",
+      "jumlah": 250000
+    },
+    {
+      "id": "59",
+      "nama": "Langganan Streaming",
+      "deskripsi": "Netflix bulanan",
+      "jenis": "Pengeluaran",
+      "tanggal": "2024-05-13",
+      "jumlah": 55000
+    },
+    {
+      "id": "60",
+      "nama": "Bioskop",
+      "deskripsi": "Jumbo",
+      "jenis": "Pengeluaran",
+      "tanggal": "2025-07-09",
+      "jumlah": 90000
+    }
   ]
 }
